@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# i love you chatgpt
+# actually i dont 
 # Check if a file has been provided as an argument
 if [[ -z "$1" ]]; then
   echo "Usage: $0 <file>"
