@@ -30,9 +30,24 @@ echo $ports | tr ' ' '\n' | xargs -I{} -P $thread sh -c "$ncCmd {} >/dev/null 2>
 #user	0m24.046s
 #sys	0m5.806s
 
-
-#time $(sudo nmap -sS -n -T4 -p 1-3269 --open 10.10.11.187)
-#
-#real	0m10.215s
-#user	0m0.052s
-#sys	0m0.031s
+# sudo nmap -n -sS -T5 -p 1-3269 --max-retries=0 --max-rtt-timeout=5 --initial-rtt-timeout=5 10.10.11.187
+# Starting Nmap 7.80 ( https://nmap.org ) at 2023-04-06 18:50 UTC
+# Warning: 10.10.11.187 giving up on port because retransmission cap hit (0).
+# Nmap scan report for 10.10.11.187
+# Host is up (0.047s latency).
+# Not shown: 3257 filtered ports
+# PORT     STATE SERVICE
+# 53/tcp   open  domain
+# 80/tcp   open  http
+# 88/tcp   open  kerberos-sec
+# 135/tcp  open  msrpc
+# 139/tcp  open  netbios-ssn
+# 389/tcp  open  ldap
+# 445/tcp  open  microsoft-ds
+# 464/tcp  open  kpasswd5
+# 593/tcp  open  http-rpc-epmap
+# 636/tcp  open  ldapssl
+# 3268/tcp open  globalcatLDAP
+# 3269/tcp open  globalcatLDAPssl
+# 
+# Nmap done: 1 IP address (1 host up) scanned in 4.28 seconds
