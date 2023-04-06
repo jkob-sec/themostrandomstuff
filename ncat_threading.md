@@ -1,5 +1,9 @@
 ## Quick comparison of each host scan
 ncat threading
+eal	0m9.213s \
+user	0m20.762s \
+sys	0m4.873s
+
 ```bash
 #!/bin/bash
 thread=400
