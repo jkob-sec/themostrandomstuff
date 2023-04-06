@@ -114,7 +114,7 @@ PORT     STATE SERVICE
 Nmap done: 1 IP address (1 host up) scanned in 4.28 seconds
 ```
 
-sudo nmap -n -sS -T5 -p53,80,88,135,139,389,445,464,593,636,3268,3269 --max-retries=0 --max-rtt-timeout=5 --initial-rtt-timeout=5 10.10.11.187
+nmap known ports
 ```
 sudo nmap -n -sS -T5 -p53,80,88,135,139,389,445,464,593,636,3268,3269 --max-retries=0 --max-rtt-timeout=5 --initial-rtt-timeout=5 10.10.11.187
 [sudo] password for rtz: 
