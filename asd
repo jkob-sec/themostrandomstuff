@@ -10,27 +10,28 @@ with open('tenable.json', 'r') as file:
 with open('invicti.json', 'r') as file:
     invicti_data = json.load(file)
 
-# Extract the relevant fields for comparison
+# Extract the specified fields from the first JSON file
 tenable_fields = ['name', 'description', 'plugin_id', 'risk_factor', 'cvss3_vector']
+tenable_extracted_data = [{field: item[field] for field in tenable_fields} for item in tenable_data]
+
+# Extract the specified fields from the second JSON file
 invicti_fields = ['Description', 'Summary', 'TypeId', 'Severity', 'CvssVectorString']
+invicti_extracted_data = [{field: item[field] for field in invicti_fields} for item in invicti_data]
 
-# Create dictionaries for quick access to data
-tenable_dict = {item['name'].lower(): item for item in tenable_data}
-invicti_dict = {item['Description'].lower(): item for item in invicti_data}
-
-# Find the most similar data based on the fields
+# Calculate similarity based on the 'name' and 'Description' fields
 similarities = []
-for tenable_name in tenable_dict:
-    matches = difflib.get_close_matches(tenable_name, invicti_dict.keys(), n=1)
+for tenable_item in tenable_extracted_data:
+    tenable_name = tenable_item['name'].lower()
+    matches = difflib.get_close_matches(tenable_name, [item['Description'].lower() for item in invicti_extracted_data], n=1)
     if matches:
         invicti_description = matches[0]
         similarity = difflib.SequenceMatcher(None, tenable_name, invicti_description).ratio()
-        similarities.append((tenable_dict[tenable_name], invicti_dict[invicti_description], similarity))
+        similarities.append((tenable_item, invicti_extracted_data[matches.index(invicti_description)], similarity))
 
-# Sort the similarities in descending order
+# Sort the similarities in descending order based on similarity
 similarities.sort(key=lambda x: x[2], reverse=True)
 
-# Save the output in CSV format
+# Save the extracted data and similarities to a CSV file
 with open('output.csv', 'w', newline='') as file:
     fieldnames = tenable_fields + invicti_fields + ['similarity']
     writer = csv.DictWriter(file, fieldnames=fieldnames)
