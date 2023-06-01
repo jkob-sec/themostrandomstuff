@@ -22,18 +22,13 @@ invicti_extracted_data = [{field: item[field] for field in invicti_fields} for i
 similarities = []
 for tenable_item in tenable_extracted_data:
     tenable_name = tenable_item['name'].lower()
-    max_similarity = 0
-    most_similar_item = None
+    matches = difflib.get_close_matches(tenable_name, [item['Description'].lower() for item in invicti_extracted_data], n=1)
 
-    for invicti_item in invicti_extracted_data:
-        invicti_description = invicti_item['Description'].lower()
-        similarity = difflib.SequenceMatcher(None, tenable_name, invicti_description).ratio()
-
-        if similarity > max_similarity:
-            max_similarity = similarity
-            most_similar_item = invicti_item
-
-    similarities.append((tenable_item, most_similar_item, max_similarity))
+    if matches:
+        invicti_index = [item['Description'].lower() for item in invicti_extracted_data].index(matches[0])
+        invicti_item = invicti_extracted_data[invicti_index]
+        similarity = difflib.SequenceMatcher(None, tenable_name, matches[0]).ratio()
+        similarities.append((tenable_item, invicti_item, similarity))
 
 # Sort the similarities in descending order based on similarity
 similarities.sort(key=lambda x: x[2], reverse=True)
